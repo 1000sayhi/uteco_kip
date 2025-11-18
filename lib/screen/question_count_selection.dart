@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
 import '../widget/base_background.dart';
-import 'question_count_selection.dart';
 
-class DifficultySelectionScreen extends StatelessWidget {
-  const DifficultySelectionScreen({super.key});
+class QuestionCountSelectionScreen extends StatelessWidget {
+  const QuestionCountSelectionScreen({super.key});
 
-  static const routeName = '/difficulty-selection';
+  static const routeName = '/question-count-selection';
 
   @override
   Widget build(BuildContext context) {
-    final selectedTopic = ModalRoute.of(context)?.settings.arguments as String?;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final topic = (args?['topic'] as String?) ?? '';
+    final difficulty = (args?['difficulty'] as String?) ?? '';
 
     return Scaffold(
       body: BaseBackground(
@@ -33,7 +35,7 @@ class DifficultySelectionScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 80),
                 Text(
-                  selectedTopic ?? '',
+                  topic,
                   style: const TextStyle(
                     fontSize: 42,
                     fontWeight: FontWeight.w800,
@@ -41,12 +43,24 @@ class DifficultySelectionScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
+                const SizedBox(height: 8),
+                if (difficulty.isNotEmpty)
+                  Text(
+                    difficulty,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white70,
+                    ),
+                  ),
                 const Spacer(),
-                _buildDifficultyButton(context, selectedTopic, '쉬움'),
+                _buildCountButton(context, topic, difficulty, '10'),
                 const SizedBox(height: 24),
-                _buildDifficultyButton(context, selectedTopic, '보통'),
+                _buildCountButton(context, topic, difficulty, '20'),
                 const SizedBox(height: 24),
-                _buildDifficultyButton(context, selectedTopic, '어려움'),
+                _buildCountButton(context, topic, difficulty, '30'),
+                const SizedBox(height: 24),
+                _buildCountButton(context, topic, difficulty, 'OR'),
                 const Spacer(),
               ],
             ),
@@ -56,9 +70,10 @@ class DifficultySelectionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDifficultyButton(
+  Widget _buildCountButton(
     BuildContext context,
-    String? selectedTopic,
+    String topic,
+    String difficulty,
     String label,
   ) {
     return SizedBox(
@@ -66,25 +81,18 @@ class DifficultySelectionScreen extends StatelessWidget {
       height: 76,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromRGBO(217, 217, 217, 0.27),
-          foregroundColor: const Color.fromRGBO(255, 255, 255, 1),
+          backgroundColor: Colors.white.withOpacity(0.35),
+          foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(26),
           ),
-          textStyle: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
+          textStyle: TextStyle(
+            fontSize: label == 'OR' ? 22 : 24,
+            fontWeight: FontWeight.w800,
           ),
         ),
         onPressed: () {
-          Navigator.pushNamed(
-            context,
-            QuestionCountSelectionScreen.routeName,
-            arguments: {
-              'topic': selectedTopic,
-              'difficulty': label,
-            },
-          );
+          // 문제 풀이 시작 전 화면으로 이동
         },
         child: Text(label),
       ),

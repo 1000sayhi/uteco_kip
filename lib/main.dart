@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screen/home.dart';
 import 'screen/splash.dart';
 import 'screen/difficulty_selection.dart';
+import 'screen/question_count_selection.dart';
 import 'screen/topic_selection.dart';
 
 void main() {
@@ -27,6 +28,8 @@ class MyApp extends StatelessWidget {
             const TopicSelectionScreen(),
         DifficultySelectionScreen.routeName: (context) =>
             const DifficultySelectionScreen(),
+        QuestionCountSelectionScreen.routeName: (context) =>
+            const QuestionCountSelectionScreen(),
       },
     );
   }
