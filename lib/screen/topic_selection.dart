@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import '../widget/base_background.dart';
-import 'topic_result.dart';
+import 'difficulty_selection.dart';
 
 class TopicSelectionScreen extends StatefulWidget {
   const TopicSelectionScreen({super.key});
@@ -107,7 +107,7 @@ class _TopicSelectionScreenState extends State<TopicSelectionScreen>
   void _onTopicTap(String topic) {
     Navigator.pushNamed(
       context,
-      TopicResultScreen.routeName,
+      DifficultySelectionScreen.routeName,
       arguments: topic,
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screen/home.dart';
 import 'screen/splash.dart';
-import 'screen/topic_result.dart';
+import 'screen/difficulty_selection.dart';
 import 'screen/topic_selection.dart';
 
 void main() {
@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context) => const HomeScreen(),
         TopicSelectionScreen.routeName: (context) =>
             const TopicSelectionScreen(),
-        TopicResultScreen.routeName: (context) => const TopicResultScreen(),
+        DifficultySelectionScreen.routeName: (context) =>
+            const DifficultySelectionScreen(),
       },
     );
   }
