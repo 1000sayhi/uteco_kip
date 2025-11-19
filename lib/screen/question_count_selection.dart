@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widget/base_background.dart';
+import 'game_start_screen.dart';
 
 class QuestionCountSelectionScreen extends StatelessWidget {
   const QuestionCountSelectionScreen({super.key});
@@ -60,7 +61,7 @@ class QuestionCountSelectionScreen extends StatelessWidget {
                 const SizedBox(height: 24),
                 _buildCountButton(context, topic, difficulty, '30'),
                 const SizedBox(height: 24),
-                _buildCountButton(context, topic, difficulty, 'OR'),
+                _buildCountButton(context, topic, difficulty, '+'),
                 const Spacer(),
               ],
             ),
@@ -86,13 +87,21 @@ class QuestionCountSelectionScreen extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(26),
           ),
-          textStyle: TextStyle(
-            fontSize: label == 'OR' ? 22 : 24,
+          textStyle: const TextStyle(
+            fontSize: 24,
             fontWeight: FontWeight.w800,
           ),
         ),
         onPressed: () {
-          // 문제 풀이 시작 전 화면으로 이동
+          Navigator.pushNamed(
+            context,
+            GameStartScreen.routeName,
+            arguments: {
+              'topic': topic,
+              'difficulty': difficulty,
+              'count': label,
+            },
+          );
         },
         child: Text(label),
       ),

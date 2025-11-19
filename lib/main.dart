@@ -3,6 +3,7 @@ import 'screen/home.dart';
 import 'screen/splash.dart';
 import 'screen/difficulty_selection.dart';
 import 'screen/question_count_selection.dart';
+import 'screen/game_start_screen.dart';
 import 'screen/topic_selection.dart';
 
 void main() {
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
             const DifficultySelectionScreen(),
         QuestionCountSelectionScreen.routeName: (context) =>
             const QuestionCountSelectionScreen(),
+        GameStartScreen.routeName: (context) => const GameStartScreen(),
       },
     );
   }
