@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widget/base_background.dart';
+import 'quiz_flow_screen.dart';
 
 class GameStartScreen extends StatelessWidget {
   const GameStartScreen({super.key});
@@ -111,7 +112,15 @@ class GameStartScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      // 문제 풀기 시작
+                      Navigator.pushNamed(
+                        context,
+                        QuizFlowScreen.routeName,
+                        arguments: {
+                          'topic': topic,
+                          'difficulty': difficulty,
+                          'count': count,
+                        },
+                      );
                     },
                     child: const Text('start'),
                   ),

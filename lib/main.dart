@@ -5,6 +5,7 @@ import 'screen/difficulty_selection.dart';
 import 'screen/question_count_selection.dart';
 import 'screen/game_start_screen.dart';
 import 'screen/topic_selection.dart';
+import 'screen/quiz_flow_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         QuestionCountSelectionScreen.routeName: (context) =>
             const QuestionCountSelectionScreen(),
         GameStartScreen.routeName: (context) => const GameStartScreen(),
+        QuizFlowScreen.routeName: (context) => const QuizFlowScreen(),
       },
     );
   }
