@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../data/dummy_questions.dart';
 import '../model/quiz_question.dart';
 import '../widget/base_background.dart';
+import 'quiz_result_screen.dart';
 
 enum QuizStage { question, result, explanation }
 
@@ -82,7 +83,15 @@ class _QuizFlowScreenState extends State<QuizFlowScreen> {
 
   void _nextQuestion() {
     if (currentIndex + 1 >= totalQuestions) {
-      Navigator.pop(context);
+      Navigator.pushReplacementNamed(
+        context,
+        QuizResultScreen.routeName,
+        arguments: {
+          'topic': topic,
+          'total': totalQuestions,
+          'correct': correctCount,
+        },
+      );
       return;
     }
     setState(() {

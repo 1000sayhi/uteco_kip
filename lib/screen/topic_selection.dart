@@ -112,6 +112,28 @@ class _TopicSelectionScreenState extends State<TopicSelectionScreen>
     );
   }
 
+  void _handleResize(Size newSize) {
+    if (_screenSize == newSize) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      setState(() {
+        _screenSize = newSize;
+        _clampPositions();
+      });
+    });
+  }
+
+  void _clampPositions() {
+    for (final topic in _topics) {
+      final pos = _positions[topic];
+      if (pos == null) continue;
+      final clampedX = pos.dx.clamp(_margin, _screenSize.width - _margin);
+      final clampedY = pos.dy
+          .clamp(_topBarrierHeight + _margin * 0.5, _screenSize.height - _margin);
+      _positions[topic] = Offset(clampedX, clampedY);
+    }
+  }
+
   @override
   void dispose() {
     _ticker.dispose();
@@ -121,61 +143,67 @@ class _TopicSelectionScreenState extends State<TopicSelectionScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BaseBackground(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              height: _topBarrierHeight,
-              child: Container(
-                color: Colors.black.withOpacity(0.12),
-                alignment: Alignment.center,
-                child: Text(
-                  '주제',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                        color: Colors.white,
-                        fontSize: 48,
-                        fontWeight: FontWeight.w700,
-                      ),
-                ),
-              ),
-            ),
-            ..._topics.map(
-              (topic) => Positioned(
-                left: _positions[topic]?.dx ?? -100,
-                top: _positions[topic]?.dy ?? -100,
-                child: GestureDetector(
-                  onTap: () => _onTopicTap(topic),
-                  child: Text(
-                    topic,
-                    style: const TextStyle(
-                      fontSize: 26,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          _handleResize(Size(constraints.maxWidth, constraints.maxHeight));
+          return BaseBackground(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: _topBarrierHeight,
+                  child: Container(
+                    color: Colors.black.withOpacity(0.12),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '주제',
+                      style:
+                          Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                color: Colors.white,
+                                fontSize: 48,
+                                fontWeight: FontWeight.w700,
+                              ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            Positioned(
-              left: 12,
-              bottom: 12,
-              child: SafeArea(
-                child: IconButton(
-                  iconSize: 32,
-                  color: Colors.black,
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                ..._topics.map(
+                  (topic) => Positioned(
+                    left: _positions[topic]?.dx ?? -100,
+                    top: _positions[topic]?.dy ?? -100,
+                    child: GestureDetector(
+                      onTap: () => _onTopicTap(topic),
+                      child: Text(
+                        topic,
+                        style: const TextStyle(
+                          fontSize: 26,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  left: 12,
+                  bottom: 12,
+                  child: SafeArea(
+                    child: IconButton(
+                      iconSize: 32,
+                      color: Colors.black,
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
